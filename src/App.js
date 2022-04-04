@@ -5,17 +5,22 @@ function App() {
   const socketRef = useRef(null);
 
   useEffect(() => {
+
+    (async () => {
+      const res = await fetch(`${SERVER_URL}/auth/users`)
+      console.log(res);
+    })()
     // создаем экземпляр сокета, передаем ему адрес сервера
     // и записываем объект с названием комнаты в строку запроса "рукопожатия"
     // socket.handshake.query.roomId
-    socketRef.current = io(SERVER_URL);
+    // socketRef.current = io(SERVER_URL);
 
     // отправляем событие добавления пользователя,
     // в качестве данных передаем объект с именем и id пользователя
-    socketRef.current.emit("connection",{
-      query: { "roomId": "asd" },
-      test: "asd"
-    });
+    // socketRef.current.emit("connection",{
+    //   query: { "roomId": "asd" },
+    //   test: "asd"
+    // });
     
     // обрабатываем получение списка пользователей
     // socketRef.current.on("users", (users) => {
@@ -39,7 +44,7 @@ function App() {
 
     return () => {
       // при размонтировании компонента выполняем отключение сокета
-      socketRef.current.disconnect();
+      // socketRef.current.disconnect();
     };
   }, []);
 
