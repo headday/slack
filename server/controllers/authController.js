@@ -18,10 +18,10 @@ class authController {
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: "Registration error", errors });
       }
-      const { login, name, password } = req.body;
+      const { login, name, password, bio } = req.body;
 
       // здесь модель должна быть
-      const condidate = await User.findAll({
+      const condidate = await User.findOne({
         attributes: ["id", "login"],
         where: {
           name,
@@ -29,7 +29,7 @@ class authController {
       });
       // console.log(condidate.length);
       // если юзер  найден
-      if (condidate.length) {
+      if (condidate) {
         res.status(400).json({ message: "User is already created", condidate });
       }
 
@@ -38,6 +38,7 @@ class authController {
         login,
         name,
         password: hashPassword,
+        bio,
       });
       return res.json({ message: "User created" });
     } catch (e) {
