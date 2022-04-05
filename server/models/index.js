@@ -31,9 +31,11 @@ const Channel = sequelize.define(
   }
 );
 const UserChannel = sequelize.define(
-  "channel",
+  "user_channel",
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    id_user: { type: DataTypes.INTEGER },
+    id_channel: { type: DataTypes.INTEGER },
   },
   {
     tableName: "user_channel",
@@ -41,15 +43,12 @@ const UserChannel = sequelize.define(
     updatedAt: false,
   }
 );
-User.hasMany(UserChannel, {as :"channel_user"}) 
-UserChannel.belongsTo(User, {
-    foreignKey: "id_user"
-})
-UserChannel.hasMany(Channel, {as: "id_channel"})
+User.hasMany(Channel, {as :"UserChannel", foreignKey: "id_user"})
 
-Channel.belongsTo(UserChannel, {
-    foreignKey:"id_channel"
-})
+
+// Channel.belongsTo(UserChannel, {
+//     foreignKey:"id_channel"
+// })
 
 module.exports = {
   User,

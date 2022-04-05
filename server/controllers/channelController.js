@@ -1,37 +1,37 @@
-const { Channel, UserChannel } = require("../models");
+const {Channel, UserChannel} = require("../models");
+
 class channelController {
-  async add(req, res) {
-    const {user} = req
-    const { name, description} = req.body;
-    
-    const {id:id_user} = user;
-    await Channel.create({
-      name, 
-      description
-    })
+    async add(req, res) {
+        try {
+            const {user} = req
+            const {name, description} = req.body;
 
-    const currentChannel = await Channel.findOne({
-      attributes: ["id"],
-      where: {
-        name
-      }
-    })
-    
-    const id_channel = currentChannel.id;
-    
-    await UserChannel.create({
-      id_user,
-      id_channel:13,
-    });
-    return res.status(200).json({status: "succes",
-  id_channel,
-id_user})
-    
-  }
+            const {id: id_user} = user;
+            const channel = await Channel.create({
+                name,
+                description
+            })
 
-  delete() {
+            const id_channel = channel.id;
 
-  }
+            await UserChannel.create({
+                id_user,
+                id_channel,
+            });
+            return res.status(200).json({
+                status: "success",
+                id_channel,
+                id_user
+            })
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ message: "Adding channel error" });
+        }
+    }
+
+    delete() {
+
+    }
 }
 
 module.exports = new channelController();
