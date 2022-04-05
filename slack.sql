@@ -250,6 +250,16 @@ ALTER TABLE `workflow`
 ALTER TABLE `role`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
+
+ALTER TABLE `channel`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `message`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `room`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `status`
 --
