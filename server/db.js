@@ -5,5 +5,5 @@ module.exports = new Sequelize({
   dialect: "mysql",
   database:"slack",
   username:"root",
-  password:"root"
+  password:""
 });

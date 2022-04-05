@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const { secret } = require("../jwt-key");
 
-const generateAccesToken = (id) => {
+const generateAccessToken = (id) => {
   const payload = {
     id,
   };
@@ -22,9 +22,9 @@ class authController {
 
       // здесь модель должна быть
       const condidate = await User.findOne({
-        attributes: ["id", "login"],
+        attributes: ["id", "name"],
         where: {
-          name,
+          login,
         },
       });
       // console.log(condidate.length);
@@ -50,7 +50,7 @@ class authController {
     try {
       const { login, password } = req.body;
       let user = await User.findOne({
-        attributes: ["id", "login", "password"],
+        attributes: ["id", "login", "password", "name"],
         where: {
           login,
         },
@@ -62,8 +62,8 @@ class authController {
       if (!validPassword) {
         return res.status(400).json({ message: "invalid password" });
       }
-      const token = generateAccesToken(user.id);
-      return res.json({ token });
+      const token = generateAccessToken(user.id);
+      return res.json({ ...user.dataValues, token });
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: "Login error" });
@@ -80,7 +80,7 @@ class authController {
 
       // jwtr.destroy(token)
       console.log(token)
-
+      res.json({message: "success"});
     } catch (e) {
       res.status(400).json({ message: "Login error" });
     }

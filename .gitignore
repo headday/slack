@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 /server/node_modules
+/server/db.js
 .pnp.js
 /.idea
 
