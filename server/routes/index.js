@@ -1,5 +1,7 @@
-const authController = require('./authRouter')
+const authRouter = require('./authRouter')
+const channelRouter = require('./channelRouter')
 
 module.exports = {
-  authController
+  authRouter,
+  channelRouter
 }

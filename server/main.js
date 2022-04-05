@@ -7,7 +7,8 @@ const PORT = 4000;
 
 app.use(cors());
 app.use(express.json())
-app.use('/auth/', routes.authController);
+app.use('/auth/', routes.authRouter);
+app.use('/channel/',routes.channelRouter);
 app.get('/test/', (req, res) => {
   const a = {
     test: "test"
