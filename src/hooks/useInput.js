@@ -17,7 +17,8 @@ function useInput(initValue, pattern) {
 	return {
 		value,
 		onChange,
-		error: isError
+		error: isError,
+		setValue
 	};
 }
 

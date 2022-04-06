@@ -1,5 +1,13 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {setAuth, setCurrentUser, setCurrentUserId, setToken, setUsers} from "./actions";
+import {
+	setAuth,
+	setCurrentUser,
+	setCurrentUserId, setLoginError, setLoginSuccess,
+	setRegistrationError,
+	setRegistrationSuccess,
+	setToken,
+	setUsers
+} from "./actions";
 
 const initState = {
 	isAuth: false,
@@ -10,6 +18,15 @@ const userState = {
 	users: [],
 	currentUser: {},
 	currentUserId: null
+}
+
+const registrationState = {
+	isSuccess: false,
+	isError: false
+}
+
+const loginState = {
+	isError: false
 }
 
 const reducer = createReducer(initState, (builder) => {
@@ -35,7 +52,26 @@ const userReducer = createReducer(userState, (builder) => {
 		})
 })
 
+const registrationReducer = createReducer(registrationState, (builder) => {
+	builder
+		.addCase(setRegistrationSuccess, (state, action) => {
+			state.isSuccess = action.payload;
+		})
+		.addCase(setRegistrationError, (state, action) => {
+			state.isError = action.payload;
+		})
+})
+
+const loginReducer = createReducer(loginState, (builder) => {
+	builder
+		.addCase(setLoginError, (state, action) => {
+			state.isError = action.payload;
+		})
+})
+
 export{
 	reducer,
-	userReducer
+	userReducer,
+	registrationReducer,
+	loginReducer
 };

@@ -3,6 +3,8 @@ import Title from "./Title";
 
 const Container = styled.div`
   padding: 30px;
+  
+  position: relative;
 
   min-width: 400px;
 

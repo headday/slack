@@ -1,26 +1,25 @@
-import {useEffect, useRef} from "react";
+import {useEffect} from "react";
 import io from "socket.io-client";
 import "./index.css";
 import Registration from "./pages/Registration";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchUsersGET, setAuth, setCurrentUser, setCurrentUserId, setToken} from "./store/actions";
 import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Link, Redirect
+	Redirect
 } from "react-router-dom";
 import Authorization from "./pages/Authorization";
 import Main from "./pages/Main";
 import jwt_decode from "jwt-decode";
+import {fetchUsersGET, setAuth, setCurrentUser, setToken} from "./store/actions";
+import {Alert} from "@mui/material";
 
 function App() {
 	const dispatch = useDispatch();
 	const isAuth = useSelector(state => state.main.isAuth);
-	const token = useSelector(state => state.main.token);
 	const users = useSelector(state => state.user.users);
-	const currentUserId = useSelector(state => state.user.currentUserId);
-	const socketRef = useRef(null);
+	const token = useSelector(state => state.main.token);
 
 	useEffect(() => {
 		// создаем экземпляр сокета, передаем ему адрес сервера
@@ -60,6 +59,25 @@ function App() {
 			// socketRef.current.disconnect();
 		};
 	}, []);
+	
+	useEffect(() => {
+		const tokenStorage = JSON.parse(localStorage.getItem('token'));
+		
+		if (tokenStorage){
+			dispatch(setAuth(true));
+			dispatch(setToken(tokenStorage));
+			dispatch(fetchUsersGET());
+		}
+	}, [])
+	
+	useEffect(() => {
+		if (users.length !== 0){
+			const {id} = jwt_decode(token);
+			const user = users.find(user => user.id === id);
+
+			dispatch(setCurrentUser(user));
+		}
+	}, [users])
 
 	return (
 		<div className="App">
@@ -83,7 +101,7 @@ function App() {
 						<Redirect to={"/registration"}/>
 					</Switch>
 				}
-			</Router>,
+			</Router>
 		</div>
 	);
 }
